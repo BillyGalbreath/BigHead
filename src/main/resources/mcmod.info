@@ -1,0 +1,9 @@
+[{
+  "modid": "bighead",
+  "name": "BigHead",
+  "description": "BigHead mode, to match your ego",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "authorList": ["BillyGalbreath"],
+  "logoFile": "assets/logo.png"
+}]

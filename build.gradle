@@ -1,0 +1,50 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+def mcVersion = "1.12.2"
+def forgeVersion = "14.23.1.2555"
+def mappingsVersion = "20171003"
+def build = System.getenv()['BUILD_NUMBER'] ?: "SNAPSHOT"
+version = mcVersion + "-b" + build
+
+group = "net.pl3x.bighead"
+archivesBaseName = "BigHead"
+
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
+
+minecraft {
+    version = mcVersion + "-" + forgeVersion
+    runDir = "run"
+
+    replace "@DEV_BUILD@", project.version
+    replaceIn archivesBaseName + ".java"
+
+    mappings = "snapshot_" + mappingsVersion
+    makeObfSourceJar = false
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        expand 'version': project.version, 'mcversion': project.minecraft.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
